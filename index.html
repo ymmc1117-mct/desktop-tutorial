@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Coin">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-180.png"> 
+    <title>Challenge Coin!</title>
+    
+    <link rel="stylesheet" href="styles/style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&family=Varela+Round&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="appContainer">
+        <div id="accountSelectScreen" class="screen active">
+            <header>
+                <h1>アカウント選択</h1>
+                <button id="globalSettingsBtn" class="setting-btn">⚙️</button>
+            </header>
+            <main id="accountList"></main>
+            <footer>
+                <button id="addAccountBtn" class="primary-btn">➕ 新しいアカウントを追加</button>
+            </footer>
+        </div>
+
+        <div id="coinScreen" class="screen">
+            <header>
+                <button id="backBtn" class="back-btn">← 戻る</button>
+                <h1 id="accountNameTitle"></h1>
+                <button id="detailSettingsBtn" class="setting-btn">⚙️</button>
+            </header>
+            <main>
+                <section class="coin-display-area">
+                    <div id="currentCoinCount" class="coin-count">0</div>
+                    <div class="coin-actions">
+                        <button id="addCoinBtn" class="coin-action-btn add-btn">＋</button>
+                        <button id="removeCoinBtn" class="coin-action-btn remove-btn">ー</button>
+                        <button id="exchangeBtn" class="primary-btn exchange-btn">交換</button>
+                    </div>
+                </section>
+                <section class="challenge-list-area">
+                    <h2>今月のチャレンジ</h2>
+                    <div id="challengeList"></div>
+                    <button id="toggleHistoryBtn" class="toggle-btn">履歴を見る ▼</button>
+                </section>
+                <section id="historyDetails" class="history-details hidden">
+                    <h3>コイン履歴</h3>
+                    <ul id="coinHistory"></ul>
+                </section>
+            </main>
+        </div>
+
+        <div id="globalSettingsModal" class="modal">
+            <div class="modal-content">
+                <h2>グローバル設定</h2>
+                <div class="form-group">
+                    <label for="newAccountName">新規アカウント名</label>
+                    <input type="text" id="newAccountName" value="新しいアカウント">
+                </div>
+                <div class="form-group">
+                    <label for="exchangeRate">交換レート</label>
+                    <input type="number" id="exchangeRate" min="1" value="10">
+                </div>
+                <div class="modal-actions">
+                    <button id="saveGlobalSettingsBtn" class="primary-btn">保存</button>
+                    <button id="resetAllBtn" class="danger-btn">全データリセット</button>
+                    <button id="closeGlobalSettingsBtn" class="secondary-btn">閉じる</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="detailSettingsModal" class="modal">
+            <div class="modal-content">
+                <h2 id="detailModalAccountName"></h2>
+                <div class="form-group">
+                    <label for="challengeTitle">チャレンジ項目</label>
+                    <input type="text" id="challengeTitle" placeholder="新しいチャレンジを入力">
+                    <button id="addChallengeInDetailModalBtn" class="primary-btn small-btn">追加</button>
+                    <ul id="editableChallengeList" class="editable-list"></ul>
+                </div>
+                <div class="modal-actions">
+                    <button id="saveDetailSettingsBtn" class="primary-btn">保存</button>
+                    <button id="resetCurrentBtn" class="danger-btn">このアカウントをリセット</button>
+                    <button id="closeDetailSettingsBtn" class="secondary-btn">閉じる</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmModal" class="modal">
+            <div class="modal-content">
+                <p id="confirmMessage"></p>
+                <div class="modal-actions">
+                    <button id="confirmActionBtn" class="primary-btn">はい</button>
+                    <button id="cancelBtn" class="secondary-btn">キャンセル</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js').then(registration => {
+                    console.log('SW registered: ', registration);
+                }).catch(registrationError => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
